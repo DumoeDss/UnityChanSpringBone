@@ -172,11 +172,11 @@ namespace UTJ
             }
 
             var springManager = selectedSpringManagers.First();
-            var queryMessage = "要更新骨骼列表的xxx？\n\n"
+            var queryMessage = "要根据所选Manager的列表更新SpringBone？\n\n"
                 + "不在列表中的SpringBone信息会被删除、\n"
-                + "未添加到模型中的SpringBone信息将被添加。\n\n"
+                + "列表中存在，但是模型上没有的SpringBone将被添加。\n\n"
                 + "SpringManager: " + springManager.name;
-            if (EditorUtility.DisplayDialog("更新骨骼列表", queryMessage, "更新", "取消"))
+            if (EditorUtility.DisplayDialog("从所选Manager的列表更新", queryMessage, "更新", "取消"))
             {
                 AutoSpringBoneSetup.UpdateSpringManagerFromBoneList(springManager);
             }
