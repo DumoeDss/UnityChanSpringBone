@@ -9,7 +9,7 @@ namespace UTJ
         public static void ShowWindow()
         {
             var editorWindow = GetWindow<LoadSpringBoneSetupWindow>(
-                "スプリングボーンセットアップを読み込む");
+                "导入SpringBone数据");
             if (editorWindow != null)
             {
                 editorWindow.SelectObjectsFromSelection();
@@ -35,8 +35,8 @@ namespace UTJ
 
         // private
 
-        private const string StopPlayModeMessage = "再生モードでセットアップしないでください。";
-        private const string SelectObjectRootsMessage = "スプリングボーンの親オブジェクトを指定してください。";
+        private const string StopPlayModeMessage = "请退出Play模式。";
+        private const string SelectObjectRootsMessage = "请指定Springbone的根节点。";
         private const int UIRowHeight = 24;
         private const int UISpacing = 8;
         private const int LabelWidth = 200;
@@ -74,11 +74,11 @@ namespace UTJ
                 importSettings = new DynamicsSetup.ImportSettings();
             }
 
-            GUI.Label(uiRect, "読み込み設定", SpringBoneGUIStyles.HeaderLabelStyle);
+            GUI.Label(uiRect, "导入设置", SpringBoneGUIStyles.HeaderLabelStyle);
             uiRect.y += uiRect.height;
-            importSettings.ImportSpringBones = GUI.Toggle(uiRect, importSettings.ImportSpringBones, "スプリングボーン", SpringBoneGUIStyles.ToggleStyle);
+            importSettings.ImportSpringBones = GUI.Toggle(uiRect, importSettings.ImportSpringBones, "SpringBone", SpringBoneGUIStyles.ToggleStyle);
             uiRect.y += uiRect.height;
-            importSettings.ImportCollision = GUI.Toggle(uiRect, importSettings.ImportCollision, "コライダー", SpringBoneGUIStyles.ToggleStyle);
+            importSettings.ImportCollision = GUI.Toggle(uiRect, importSettings.ImportCollision, "Collider", SpringBoneGUIStyles.ToggleStyle);
             uiRect.y += uiRect.height;
         }
 
@@ -90,9 +90,9 @@ namespace UTJ
 
             var uiWidth = (int)position.width - UISpacing * 2;
             var yPos = UISpacing;
-            springBoneRoot = DoObjectPicker("スプリングボーンのルート", springBoneRoot, uiWidth, UIRowHeight, ref yPos);
+            springBoneRoot = DoObjectPicker("SpringBone的根节点", springBoneRoot, uiWidth, UIRowHeight, ref yPos);
             var buttonRect = new Rect(UISpacing, yPos, uiWidth, ButtonHeight);
-            if (GUI.Button(buttonRect, "選択からルートを取得", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(buttonRect, "选择当前所选物体", SpringBoneGUIStyles.ButtonStyle))
             {
                 SelectObjectsFromSelection();
             }
@@ -104,7 +104,7 @@ namespace UTJ
             string errorMessage;
             if (IsOkayToSetup(out errorMessage))
             {
-                if (GUI.Button(buttonRect, "CSVを読み込んでセットアップ", SpringBoneGUIStyles.ButtonStyle))
+                if (GUI.Button(buttonRect, "从CSV文件导入并设置", SpringBoneGUIStyles.ButtonStyle))
                 {
                     BrowseAndLoadSpringSetup();
                 }
@@ -169,7 +169,7 @@ namespace UTJ
                 setup.Build();
                 AssetDatabase.Refresh();
 
-                const string ResultFormat = "セットアップ完了: {0}\nボーン数: {1} コライダー数: {2}";
+                const string ResultFormat = "加载完成: {0}\nSpringBone数: {1} Collider数: {2}";
                 var boneCount = springBoneRoot.GetComponentsInChildren<SpringBone>(true).Length;
                 var colliderCount = SpringColliderSetup.GetColliderTypes()
                     .Sum(type => springBoneRoot.GetComponentsInChildren(type, true).Length);
@@ -193,9 +193,9 @@ namespace UTJ
 
             // var initialPath = "";
             var initialDirectory = ""; // System.IO.Path.GetDirectoryName(initialPath);
-            var fileFilters = new string[] { "CSVファイル", "csv", "テキストファイル", "txt" };
+            var fileFilters = new string[] { "CSV文件", "csv", "文本文件", "txt" };
             var path = EditorUtility.OpenFilePanelWithFilters(
-                "スプリングボーンセットアップを読み込む", initialDirectory, fileFilters);
+                "导入SpringBone", initialDirectory, fileFilters);
             if (path.Length == 0) { return; }
 
             var sourceText = FileUtil.ReadAllText(path);
@@ -217,15 +217,15 @@ namespace UTJ
             else
             {
                 const string ErrorFormat =
-                    "スプリングボーンセットアップが失敗しました。\n"
-                    + "元データにエラーがあるか、もしくは\n"
-                    + "キャラクターにデータが一致しません。\n"
-                    + "詳しくはConsoleのログをご覧下さい。\n\n"
-                    + "キャラクター: {0}\n\n"
-                    + "パス: {1}";
+                    "SpringBone导入失败。\n"
+                    + "原始数据中有错误，\n"
+                    + "或数据与字符不匹配。\n"
+                    + "详细信息请查看Console的日志。\n\n"
+                    + "springBoneRoot: {0}\n\n"
+                    + "Path: {1}";
                 var resultErrorMessage = string.Format(ErrorFormat, springBoneRoot.name, path);
-                EditorUtility.DisplayDialog("スプリングボーンセットアップ", resultErrorMessage, "OK");
-                Debug.LogError("スプリングボーンセットアップ失敗: " + springBoneRoot.name + "\n" + path);
+                EditorUtility.DisplayDialog("导入SpringBone", resultErrorMessage, "OK");
+                Debug.LogError("SpringBone导入失败: " + springBoneRoot.name + "\n" + path);
             }
             Close();
         }

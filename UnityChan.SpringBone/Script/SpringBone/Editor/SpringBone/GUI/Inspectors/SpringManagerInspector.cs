@@ -35,9 +35,9 @@ namespace UTJ
                 if (actionButtons == null || actionButtons.Length == 0)
                 {
                     actionButtons = new[] {
-                        new SpringManagerButton("窓を表示", ShowSpringWindow),
-                        new SpringManagerButton("SpringBoneを全て選択", SelectAllBones),
-                        new SpringManagerButton("SpringBoneリストを更新", UpdateBoneList)
+                        new SpringManagerButton("打开窗口", ShowSpringWindow),
+                        new SpringManagerButton("选择所有的SpringBone", SelectAllBones),
+                        new SpringManagerButton("更新SpringBone列表", UpdateBoneList)
                     };
                 }
 

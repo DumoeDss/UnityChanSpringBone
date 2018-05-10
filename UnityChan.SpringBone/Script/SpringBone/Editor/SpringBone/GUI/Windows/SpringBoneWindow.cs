@@ -6,10 +6,10 @@ namespace UTJ
 {
     public class SpringBoneWindow : EditorWindow
     {
-        [MenuItem("UTJ/スプリングボーン窓")]
+        [MenuItem("UTJ/SpringBoneWindow")]
         public static void ShowWindow()
         {
-            var window = GetWindow<SpringBoneWindow>("スプリングボーン");
+            var window = GetWindow<SpringBoneWindow>("SpringBone");
             window.OnShow();
         }
 
@@ -36,7 +36,7 @@ namespace UTJ
             var iconTexture = AssetDatabase.LoadAssetAtPath<Texture>(iconPath);
             if (iconTexture == null)
             {
-                Debug.LogWarning("アイコン読み込み失敗:\n" + iconPath);
+                Debug.LogWarning("Icon读取失败:\n" + iconPath);
             }
             return iconTexture;
         }
@@ -58,7 +58,7 @@ namespace UTJ
             var iconDirectory = FindIconAssetDirectory();
             if (iconDirectory == null)
             {
-                Debug.LogWarning("SpringBoneWindowのアイコンディレクトリーが見つかりません");
+                Debug.LogWarning("找不到SpringBoneWindow的Icon目录");
                 return;
             }
 
@@ -86,10 +86,10 @@ namespace UTJ
             {
                 new GUIElements.Column(new GUIElements.IElement[]
                 {
-                    new GUIElements.Label("ダイナミクスCSV", headerLabelStyleProvider),
+                    new GUIElements.Label("存取CSV", headerLabelStyleProvider),
                     new GUIElements.Row(new GUIElements.IElement[]
                     {
-                        new GUIElements.Button("読み込む", LoadSpringBoneSetupWindow.ShowWindow, openDocumentIcon, buttonLabelStyleProvider),
+                        new GUIElements.Button("读取", LoadSpringBoneSetupWindow.ShowWindow, openDocumentIcon, buttonLabelStyleProvider),
                         new GUIElements.Button("保存", SaveSpringBoneSetupWindow.ShowWindow, saveDocumentIcon, buttonLabelStyleProvider)
                     },
                     BigButtonHeight)
@@ -97,37 +97,37 @@ namespace UTJ
 
                 new GUIElements.Column(new GUIElements.IElement[]
                 {
-                    new GUIElements.Label("スプリングボーン", headerLabelStyleProvider),
+                    new GUIElements.Label("SpringBone", headerLabelStyleProvider),
                     new GUIElements.Row(new GUIElements.IElement[]
                     {
-                        new GUIElements.Button("スプリング\nボーン追加", SpringBoneEditorActions.AssignSpringBonesRecursively, headerIcon, buttonLabelStyleProvider),
+                        new GUIElements.Button("添加SpringBone(包括子物体)", SpringBoneEditorActions.AssignSpringBonesRecursively, headerIcon, buttonLabelStyleProvider),
                         new GUIElements.Button("基点作成", SpringBoneEditorActions.CreatePivotForSpringBones, pivotIcon, buttonLabelStyleProvider)
                     },
                     BigButtonHeight),
-                    new GUIElements.Button("マネージャーを作成／更新", SpringBoneEditorActions.AddToOrUpdateSpringManagerInSelection, newDocumentIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("创建/更新SpringBoneManager", SpringBoneEditorActions.AddToOrUpdateSpringManagerInSelection, newDocumentIcon, buttonLabelStyleProvider),
                     //new GUIElements.Button("初期セットアップを行う", SpringBoneAutoSetupWindow.ShowWindow, newDocumentIcon, buttonLabelStyleProvider),
                     //new GUIElements.Button("初期ボーンリストに合わせる", SpringBoneEditorActions.PromptToUpdateSpringBonesFromList, null, buttonLabelStyleProvider),
                     new GUIElements.Separator(),
-                    new GUIElements.Button("スプリングボーンをミラー", MirrorSpringBoneWindow.ShowWindow, null, buttonLabelStyleProvider),
-                    new GUIElements.Button("選択と子供のスプリングボーンを選択", SpringBoneEditorActions.SelectChildSpringBones, null, buttonLabelStyleProvider),
-                    new GUIElements.Button("選択スプリングボーンを削除", SpringBoneEditorActions.DeleteSelectedBones, deleteIcon, buttonLabelStyleProvider),
-                    new GUIElements.Button("選択と子供のマネージャーとボーンを削除", SpringBoneEditorActions.DeleteSpringBonesAndManagers, deleteIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("镜像SpringBone", MirrorSpringBoneWindow.ShowWindow, null, buttonLabelStyleProvider),
+                    new GUIElements.Button("选择所选对象下的所有SpringBones", SpringBoneEditorActions.SelectChildSpringBones, null, buttonLabelStyleProvider),
+                    new GUIElements.Button("删除选定的Springbone", SpringBoneEditorActions.DeleteSelectedBones, deleteIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("删除所选对象下的所有SpringBones(包括Manager)", SpringBoneEditorActions.DeleteSpringBonesAndManagers, deleteIcon, buttonLabelStyleProvider),
                 }),
 
                 new GUIElements.Column(new GUIElements.IElement[]
                 {
-                    new GUIElements.Label("コリジョン", headerLabelStyleProvider),
+                    new GUIElements.Label("碰撞体", headerLabelStyleProvider),
                     new GUIElements.Row(new GUIElements.IElement[]
                     {
                         new GUIElements.Button("球体", SpringColliderEditorActions.CreateSphereColliderBeneathSelectedObjects, sphereIcon, buttonLabelStyleProvider),
-                        new GUIElements.Button("カプセル", SpringColliderEditorActions.CreateCapsuleColliderBeneathSelectedObjects, capsuleIcon, buttonLabelStyleProvider),
+                        new GUIElements.Button("胶囊体", SpringColliderEditorActions.CreateCapsuleColliderBeneathSelectedObjects, capsuleIcon, buttonLabelStyleProvider),
                         new GUIElements.Button("板", SpringColliderEditorActions.CreatePanelColliderBeneathSelectedObjects, panelIcon, buttonLabelStyleProvider),
                     },
                     BigButtonHeight),
-                    new GUIElements.Button("カプセルの位置を親に合わせる", SpringColliderEditorActions.AlignSelectedCapsulesToParents, capsuleIcon, buttonLabelStyleProvider),
-                    new GUIElements.Button("スプリングボーンからコリジョンを外す", SpringColliderEditorActions.DeleteCollidersFromSelectedSpringBones, deleteIcon, buttonLabelStyleProvider),
-                    new GUIElements.Button("選択と子供のコライダーを削除", SpringColliderEditorActions.DeleteAllChildCollidersFromSelection, deleteIcon, buttonLabelStyleProvider),
-                    new GUIElements.Button("クリーンナップ", SpringColliderEditorActions.CleanUpDynamics, deleteIcon, buttonLabelStyleProvider)
+                    new GUIElements.Button("将胶囊体的位置对齐到父物体", SpringColliderEditorActions.AlignSelectedCapsulesToParents, capsuleIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("删除选定Springbone的碰撞体", SpringColliderEditorActions.DeleteCollidersFromSelectedSpringBones, deleteIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("删除所选对象下的所有碰撞体", SpringColliderEditorActions.DeleteAllChildCollidersFromSelection, deleteIcon, buttonLabelStyleProvider),
+                    new GUIElements.Button("清除SpringBone(包括Manager与Collider)", SpringColliderEditorActions.CleanUpDynamics, deleteIcon, buttonLabelStyleProvider)
                 })
             },
             false,
@@ -193,14 +193,14 @@ namespace UTJ
                     new GUIElements.Label("表示", headerLabelStyleProvider),
                     new GUIElements.Row(new GUIElements.IElement[]
                         {
-                            new GUIElements.Toggle("選択ボーンのみ表示", () => settings.onlyShowSelectedBones, newValue => { settings.onlyShowSelectedBones = newValue; needToRepaint = true; }, toggleStyleProvider),
-                            new GUIElements.Toggle("ボーンのコリジョンを表示", () => settings.showBoneSpheres, newValue => { settings.showBoneSpheres = newValue; needToRepaint = true; }, toggleStyleProvider),
+                            new GUIElements.Toggle("只显示选定的骨骼", () => settings.onlyShowSelectedBones, newValue => { settings.onlyShowSelectedBones = newValue; needToRepaint = true; }, toggleStyleProvider),
+                            new GUIElements.Toggle("显示骨骼", () => settings.showBoneSpheres, newValue => { settings.showBoneSpheres = newValue; needToRepaint = true; }, toggleStyleProvider),
                         },
                         GUIElements.RowHeight),
                     new GUIElements.Row(new GUIElements.IElement[]
                         {
-                            new GUIElements.Toggle("選択コライダーのみ表示", () => settings.onlyShowSelectedColliders, newValue => { settings.onlyShowSelectedColliders = newValue; needToRepaint = true; }, toggleStyleProvider),
-                            new GUIElements.Toggle("ボーン名を表示", () => settings.showBoneNames, newValue => { settings.showBoneNames = newValue; needToRepaint = true; }, toggleStyleProvider)
+                            new GUIElements.Toggle("只显示选定的碰撞体", () => settings.onlyShowSelectedColliders, newValue => { settings.onlyShowSelectedColliders = newValue; needToRepaint = true; }, toggleStyleProvider),
+                            new GUIElements.Toggle("显示骨骼名称", () => settings.showBoneNames, newValue => { settings.showBoneNames = newValue; needToRepaint = true; }, toggleStyleProvider)
                         },
                         GUIElements.RowHeight),
                 },

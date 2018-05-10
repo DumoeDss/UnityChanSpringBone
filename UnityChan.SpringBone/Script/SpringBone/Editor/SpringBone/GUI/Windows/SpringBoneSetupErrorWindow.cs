@@ -21,7 +21,7 @@ namespace UTJ
             IConfirmAction onConfirm
         )
         {
-            var window = GetWindow<SpringBoneSetupErrorWindow>("ダイナミクスセットアップ");
+            var window = GetWindow<SpringBoneSetupErrorWindow>("DynamicsSetup");
             window.springBoneRoot = springBoneRoot;
             window.colliderRoot = colliderRoot;
             window.filePath = path;
@@ -41,23 +41,23 @@ namespace UTJ
         private void OnGUI()
         {
             EditorGUILayout.Space();
-            GUILayout.Label("ダイナミクスセットアップに一部エラーが出ているものがあります。正常なものだけ作成しますか？");
+            GUILayout.Label("DynamicsSetup中有一些错误。只创建正常的部分？");
             EditorGUILayout.Space();
-            EditorGUILayout.ObjectField("スプリングボーンのルート", springBoneRoot, typeof(GameObject), true);
-            EditorGUILayout.ObjectField("コライダーのルート", colliderRoot, typeof(GameObject), true);
-            EditorGUILayout.TextField("パス", filePath);
+            EditorGUILayout.ObjectField("SpringBone的根节点", springBoneRoot, typeof(GameObject), true);
+            EditorGUILayout.ObjectField("Collider的根节点", colliderRoot, typeof(GameObject), true);
+            EditorGUILayout.TextField("Path", filePath);
             EditorGUILayout.Space();
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("作成"))
+            if (GUILayout.Button("创建"))
             {
                 onConfirmAction.Perform();
                 Close();
             }
-            if (GUILayout.Button("キャンセル")) { Close(); }
+            if (GUILayout.Button("取消")) { Close(); }
             GUILayout.EndHorizontal();
             EditorGUILayout.Space();
 
-            GUILayout.Label("エラー");
+            GUILayout.Label("Error");
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
             foreach (var error in errors)
             {

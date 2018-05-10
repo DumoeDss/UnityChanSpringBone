@@ -17,13 +17,13 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             if (Selection.gameObjects.Length < 1)
             {
-                Debug.LogError("一つ以上のオブジェクトを選択してください。");
+                Debug.LogError("请至少选择一个对象。");
                 return;
             }
 
@@ -50,13 +50,13 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             if (Selection.gameObjects.Length < 1)
             {
-                Debug.LogError("一つ以上のオブジェクトを選択してください。");
+                Debug.LogError("请至少选择一个对象。");
                 return;
             }
 
@@ -73,13 +73,13 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             if (Selection.gameObjects.Length <= 0)
             {
-                Debug.LogError("一つ以上のオブジェクトを選択してください。");
+                Debug.LogError("请至少选择一个对象。");
                 return;
             }
 
@@ -105,22 +105,24 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             if (Selection.gameObjects.Length != 1)
             {
-                Debug.LogError("一つだけのルートオブジェクトを選択してください");
+                Debug.LogError("只可以选择一个Root对象");
                 return;
             }
 
             var rootObject = Selection.gameObjects.First();
-            var queryMessage = "本当にこのオブジェクトとその子供に入っている全ての\n"
-                + "スプリングボーンとスプリングマネージャーを削除しますか？\n\n"
-                + rootObject.name;
+            var queryMessage = 
+            "确定要把以下对象及其子对象中的\n"
+            + "SpringBone与SpringManager都删除吗？\n\n"
+            +rootObject.name
+            ;
             if (EditorUtility.DisplayDialog(
-                "スプリングボーンとマネージャーを削除", queryMessage, "削除", "キャンセル"))
+                "考虑清楚，真的要删掉嘛", queryMessage, "删除", "取消"))
             {
                 SpringBoneSetup.DestroySpringManagersAndBones(rootObject);
                 AssetDatabase.Refresh();
@@ -150,7 +152,7 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生中に更新できません");
+                Debug.LogError("Play过程中无法更新");
                 return;
             }
 
@@ -165,16 +167,16 @@ namespace UTJ
 
             if (selectedSpringManagers.Count() != 1)
             {
-                Debug.LogError("一つだけのSpringManagerを選択してください");
+                Debug.LogError("只可以选择一个SpringManager");
                 return;
             }
 
             var springManager = selectedSpringManagers.First();
-            var queryMessage = "ボーンリストから揺れものボーンを更新しますか？\n\n"
-                + "リストにないSpringBone情報は削除され、\n"
-                + "モデルにないSpringBone情報は追加されます。\n\n"
+            var queryMessage = "要更新骨骼列表的xxx？\n\n"
+                + "不在列表中的SpringBone信息会被删除、\n"
+                + "未添加到模型中的SpringBone信息将被添加。\n\n"
                 + "SpringManager: " + springManager.name;
-            if (EditorUtility.DisplayDialog("ボーンリストから更新", queryMessage, "更新", "キャンセル"))
+            if (EditorUtility.DisplayDialog("更新骨骼列表", queryMessage, "更新", "取消"))
             {
                 AutoSpringBoneSetup.UpdateSpringManagerFromBoneList(springManager);
             }

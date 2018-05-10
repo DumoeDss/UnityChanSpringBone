@@ -12,7 +12,7 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return new List<GameObject>();
             }
 
@@ -96,7 +96,7 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
@@ -105,8 +105,8 @@ namespace UTJ
                 .Where(bone => bone != null);
             if (!selectedBones.Any()) { return; }
 
-            var queryMessage = "本当に選択SpringBoneのコリジョンを削除しますか？";
-            if (EditorUtility.DisplayDialog("コリジョンを削除", queryMessage, "削除", "キャンセル"))
+            var queryMessage = "确定要删除所选SpringBone的碰撞体吗？";
+            if (EditorUtility.DisplayDialog("删除碰撞体", queryMessage, "删除", "取消"))
             {
                 Undo.RecordObjects(selectedBones.ToArray(), "コリジョンを削除");
                 foreach (var springBone in selectedBones)
@@ -120,14 +120,14 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             if (Selection.gameObjects.Length == 0) { return; }
 
-            var queryMessage = "本当に選択中のオブジェクトの全子供のコライダーを削除しますか？";
-            if (!EditorUtility.DisplayDialog("選択コライダーを削除", queryMessage, "削除", "キャンセル"))
+            var queryMessage = "确定要删除所选对象子物体中的碰撞体吗？";
+            if (!EditorUtility.DisplayDialog("删除所选对象子物体中的碰撞体", queryMessage, "删除", "取消"))
             {
                 return;
             }
@@ -182,15 +182,15 @@ namespace UTJ
         {
             if (Application.isPlaying)
             {
-                Debug.LogError("再生モードを止めてください。");
+                Debug.LogError("请退出Play模式。");
                 return;
             }
 
             var springManagers = GameObjectUtil.FindComponentsOfType<SpringManager>();
             if (!springManagers.Any()) { return; }
 
-            var queryMessage = "本当にダイナミクスのクリーンナップを行いますか？";
-            if (EditorUtility.DisplayDialog("ダイナミクスクリーンナップ", queryMessage, "削除", "キャンセル"))
+            var queryMessage = "真的要把SpringBone、Manager、Collider全部清除吗？";
+            if (EditorUtility.DisplayDialog("全部清除", queryMessage, "删除", "取消"))
             {
                 RemoveDuplicateComponents<SpringBone>();
                 RemoveDuplicateComponents<DynamicsNull>();

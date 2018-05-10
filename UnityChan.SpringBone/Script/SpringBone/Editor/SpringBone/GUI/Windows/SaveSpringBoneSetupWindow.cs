@@ -9,7 +9,7 @@ namespace UTJ
         public static void ShowWindow()
         {
             var editorWindow = GetWindow<SaveSpringBoneSetupWindow>(
-                "スプリングボーンセットアップを保存");
+                "导出SpringBone数据");
             if (editorWindow != null)
             {
                 editorWindow.SelectObjectsFromSelection();
@@ -52,11 +52,11 @@ namespace UTJ
                 exportSettings = new SpringBoneSerialization.ExportSettings();
             }
 
-            GUI.Label(uiRect, "書き出し設定", SpringBoneGUIStyles.HeaderLabelStyle);
+            GUI.Label(uiRect, "导出设置", SpringBoneGUIStyles.HeaderLabelStyle);
             uiRect.y += uiRect.height;
-            exportSettings.ExportSpringBones = GUI.Toggle(uiRect, exportSettings.ExportSpringBones, "スプリングボーン", SpringBoneGUIStyles.ToggleStyle);
+            exportSettings.ExportSpringBones = GUI.Toggle(uiRect, exportSettings.ExportSpringBones, "SpringBone", SpringBoneGUIStyles.ToggleStyle);
             uiRect.y += uiRect.height;
-            exportSettings.ExportCollision = GUI.Toggle(uiRect, exportSettings.ExportCollision, "コライダー", SpringBoneGUIStyles.ToggleStyle);
+            exportSettings.ExportCollision = GUI.Toggle(uiRect, exportSettings.ExportCollision, "Collider", SpringBoneGUIStyles.ToggleStyle);
             uiRect.y += uiRect.height;
         }
 
@@ -72,9 +72,9 @@ namespace UTJ
             var yPos = UISpacing;
 
             springBoneRoot = LoadSpringBoneSetupWindow.DoObjectPicker(
-                "スプリングボーンのルート", springBoneRoot, uiWidth, UIRowHeight, ref yPos);
+                "SpringBone的根节点", springBoneRoot, uiWidth, UIRowHeight, ref yPos);
             var buttonRect = new Rect(UISpacing, yPos, uiWidth, ButtonHeight);
-            if (GUI.Button(buttonRect, "選択からルートを取得", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(buttonRect, "选择当前所选物体", SpringBoneGUIStyles.ButtonStyle))
             {
                 SelectObjectsFromSelection();
             }
@@ -84,7 +84,7 @@ namespace UTJ
             ShowExportSettingsUI(ref buttonRect);
             if (springBoneRoot != null)
             {
-                if (GUI.Button(buttonRect, "CSVを保存", SpringBoneGUIStyles.ButtonStyle))
+                if (GUI.Button(buttonRect, "导出到CSV文件", SpringBoneGUIStyles.ButtonStyle))
                 {
                     BrowseAndSaveSpringSetup();
                 }
@@ -98,13 +98,13 @@ namespace UTJ
             var initialFileName = springBoneRoot.name + "_Dynamics.csv";
 
             var path = EditorUtility.SaveFilePanel(
-                "スプリングボーンセットアップを保存", "", initialFileName, "csv");
+                "导出SpringBone数据", "", initialFileName, "csv");
             if (path.Length == 0) { return; }
 
             if (System.IO.File.Exists(path))
             {
-                var overwriteMessage = "ファイルは既に存在します。上書きしますか？\n\n" + path;
-                if (!EditorUtility.DisplayDialog("スプリングボーン保存", overwriteMessage, "上書き", "キャンセル"))
+                var overwriteMessage = "文件已存在，是否覆盖？\n\n" + path;
+                if (!EditorUtility.DisplayDialog("Save SpringBone", overwriteMessage, "覆盖", "取消"))
                 {
                     return;
                 }
@@ -114,7 +114,7 @@ namespace UTJ
             if (FileUtil.WriteAllText(path, sourceText))
             {
                 AssetDatabase.Refresh();
-                Debug.Log("保存しました: " + path);
+                Debug.Log("数据已保存: " + path);
             }
         }
     }

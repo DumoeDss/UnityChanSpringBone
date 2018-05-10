@@ -34,9 +34,9 @@ namespace UTJ
             var managerCount = managers.Length;
             for (int managerIndex = 0; managerIndex < managerCount; managerIndex++)
             {
-                EditorGUILayout.ObjectField("マネージャー", managers[managerIndex], typeof(SpringManager), true);
+                EditorGUILayout.ObjectField("SpringManager", managers[managerIndex], typeof(SpringManager), true);
             }
-            var newEnabled = EditorGUILayout.Toggle("有効", bone.enabled);
+            var newEnabled = EditorGUILayout.Toggle("Enable", bone.enabled);
             GUILayout.EndVertical();
 
             if (newEnabled != bone.enabled)
@@ -46,7 +46,7 @@ namespace UTJ
                     .Where(targetBone => targetBone != null);
                 if (targetBones.Any())
                 {
-                    Undo.RecordObjects(targetBones.ToArray(), "SpringBoneの有効状態を変更");
+                    Undo.RecordObjects(targetBones.ToArray(), "改变SpringBone的有效状态");
                     foreach (var targetBone in targetBones)
                     {
                         targetBone.enabled = newEnabled;
@@ -68,7 +68,7 @@ namespace UTJ
                 RenderAngleLimitVisualization();
             }
 
-            showOriginalInspector = EditorGUILayout.Toggle("標準インスペクター表示", showOriginalInspector);
+            showOriginalInspector = EditorGUILayout.Toggle("默认Inspector选项", showOriginalInspector);
             GUILayout.Space(Spacing);
             if (showOriginalInspector)
             {
@@ -244,21 +244,21 @@ namespace UTJ
             };
 
             var lengthLimitProperties = new PropertyInfo[] {
-                new PropertyInfo("lengthLimitTargets", "ターゲット")
+                new PropertyInfo("lengthLimitTargets", "Target")
             };
 
             var collisionProperties = new PropertyInfo[] {
                 new PropertyInfo("radius", "半径"),
                 new PropertyInfo("sphereColliders", "球体"),
-                new PropertyInfo("capsuleColliders", "カプセル"),
+                new PropertyInfo("capsuleColliders", "胶囊体"),
                 new PropertyInfo("panelColliders", "板")
             };
 
             propertySets = new PropertySet[] {
                 new PropertySet("力", forceProperties), 
-                new PropertySet("角度制限", angleLimitProperties),
-                new PropertySet("距離制限", lengthLimitProperties),
-                new PropertySet("当たり判定", collisionProperties),
+                new PropertySet("角度限制", angleLimitProperties),
+                new PropertySet("距離限制", lengthLimitProperties),
+                new PropertySet("碰撞设置", collisionProperties),
             };
 
             foreach (var set in propertySets)

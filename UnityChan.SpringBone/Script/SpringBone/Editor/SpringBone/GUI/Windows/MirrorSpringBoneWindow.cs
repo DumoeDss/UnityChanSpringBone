@@ -10,7 +10,7 @@ namespace UTJ
     {
         public static void ShowWindow()
         {
-            var window = GetWindow<MirrorSpringBoneWindow>("SpringBoneミラー");
+            var window = GetWindow<MirrorSpringBoneWindow>("SpringBone镜像");
             window.Show();
             window.OnShow();
         }
@@ -57,7 +57,7 @@ namespace UTJ
             uiRect = ShowUtilityButtons(uiRect);
             uiRect = ShowBoneList(uiRect);
 
-            if (GUI.Button(uiRect, "ミラーを行う", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(uiRect, "执行镜像", SpringBoneGUIStyles.ButtonStyle))
             {
                 PerformMirror();
             }
@@ -66,7 +66,7 @@ namespace UTJ
         private Rect ShowUtilityButtons(Rect uiRect)
         {
             var buttonOffset = uiRect.height + Spacing;
-            if (GUI.Button(uiRect, "選択から取得", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(uiRect, "添加当前所选SpringBone到复制源列表", SpringBoneGUIStyles.ButtonStyle))
             {
                 AcquireBonesFromSelection();
             }
@@ -87,20 +87,20 @@ namespace UTJ
 
             halfButtonRect.x = uiRect.x;
             halfButtonRect.y = uiRect.y;
-            if (GUI.Button(halfButtonRect, "コピー元を全選択", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(halfButtonRect, "选择列表中的复制源SpringBone", SpringBoneGUIStyles.ButtonStyle))
             {
                 var sourceBones = boneEntries.Select(entry => entry.sourceBone).Where(bone => bone != null);
                 if (sourceBones.Any()) { Selection.objects = sourceBones.Select(bone => bone.gameObject).ToArray(); }
             }
             halfButtonRect.x += halfRectWidth + Spacing;
-            if (GUI.Button(halfButtonRect, "コピー先を全選択", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(halfButtonRect, "选择列表中的目标SpringBone", SpringBoneGUIStyles.ButtonStyle))
             {
                 var targetBones = boneEntries.Select(entry => entry.targetBone).Where(bone => bone != null);
                 if (targetBones.Any()) { Selection.objects = targetBones.Select(bone => bone.gameObject).ToArray(); }
             }
             uiRect.y += buttonOffset;
 
-            if (GUI.Button(uiRect, "全選択", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(uiRect, "选择列表中所有的SpringBone", SpringBoneGUIStyles.ButtonStyle))
             {
                 var bonesToSelect = new List<SpringBone>();
                 bonesToSelect.AddRange(boneEntries.Select(entry => entry.sourceBone).Where(bone => bone != null));
@@ -117,9 +117,9 @@ namespace UTJ
             var listBoxBottom = position.height - (Spacing * 2f + RowHeight);
 
             var headerRowRect = new Rect(uiRect.x, uiRect.y, uiRect.width * 0.5f, uiRect.height);
-            GUI.Label(headerRowRect, "元", SpringBoneGUIStyles.LabelStyle);
+            GUI.Label(headerRowRect, "复制源SpringBone", SpringBoneGUIStyles.LabelStyle);
             headerRowRect.x += headerRowRect.width;
-            GUI.Label(headerRowRect, "→ 先", SpringBoneGUIStyles.LabelStyle);
+            GUI.Label(headerRowRect, "→ 复制目标SpringBone", SpringBoneGUIStyles.LabelStyle);
             uiRect.y += uiRect.height;
 
             const float ScrollbarWidth = 20f;
