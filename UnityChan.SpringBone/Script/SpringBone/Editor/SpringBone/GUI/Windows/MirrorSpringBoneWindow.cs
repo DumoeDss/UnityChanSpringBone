@@ -61,7 +61,7 @@ namespace UTJ
                 PerformMirror();
             }
         }
-        bool isToggle = false, isX = false, isY = false, isZ = false;
+        bool  isX = false, isY = false, isZ = false;
         private Rect ShowUtilityButtons(Rect uiRect)
         {
             var buttonOffset = uiRect.height + Spacing;
@@ -72,7 +72,7 @@ namespace UTJ
             uiRect.y += buttonOffset;
             var quarterRectWidth = 0.15f * (uiRect.width - Spacing);
             var threeToggleRect = new Rect(uiRect.x, uiRect.y, quarterRectWidth, uiRect.height);
-            string strAxis = "X";
+            string strAxis = "";
             GUI.Label(threeToggleRect,"选择镜像轴:");
             threeToggleRect.x += quarterRectWidth + Spacing;
             if (isX= GUI.Toggle(threeToggleRect, isX, "X", SpringBoneGUIStyles.ToggleStyle))
