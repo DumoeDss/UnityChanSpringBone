@@ -17,7 +17,7 @@ namespace UTJ
 
         // private
 
-        private enum Axis { X, Y, Z }
+        public enum Axis { X, Y, Z,Null }
 
         private class BoneEntry
         {
@@ -43,7 +43,7 @@ namespace UTJ
         private const float Spacing = 8f;
         private const float RowHeight = 30f;
 
-        private Axis mirrorAxis = Axis.X;
+        public Axis mirrorAxis = Axis.Null;
         private List<BoneEntry> boneEntries;
         private Vector2 scrollPosition;
 
@@ -56,13 +56,12 @@ namespace UTJ
             var uiRect = new Rect(Spacing, Spacing, position.width - Spacing * 2f, RowHeight);
             uiRect = ShowUtilityButtons(uiRect);
             uiRect = ShowBoneList(uiRect);
-
             if (GUI.Button(uiRect, "执行镜像", SpringBoneGUIStyles.ButtonStyle))
             {
                 PerformMirror();
             }
         }
-
+        bool isToggle = false, isX = false, isY = false, isZ = false;
         private Rect ShowUtilityButtons(Rect uiRect)
         {
             var buttonOffset = uiRect.height + Spacing;
@@ -71,29 +70,67 @@ namespace UTJ
                 AcquireBonesFromSelection();
             }
             uiRect.y += buttonOffset;
-
+            var quarterRectWidth = 0.15f * (uiRect.width - Spacing);
+            var threeToggleRect = new Rect(uiRect.x, uiRect.y, quarterRectWidth, uiRect.height);
+            string strAxis = "X";
+            GUI.Label(threeToggleRect,"选择镜像轴:");
+            threeToggleRect.x += quarterRectWidth + Spacing;
+            if (isX= GUI.Toggle(threeToggleRect, isX, "X", SpringBoneGUIStyles.ToggleStyle))
+            {
+                isY= isZ = false;
+                mirrorAxis = Axis.X;
+                strAxis = "X";
+            }
+            threeToggleRect.x += quarterRectWidth + Spacing;
+            if (isY=GUI.Toggle(threeToggleRect, isY, "Y", SpringBoneGUIStyles.ToggleStyle))
+            {
+                isX = isZ = false;
+                mirrorAxis = Axis.Y;
+                strAxis = "Y";
+            }
+            threeToggleRect.x += quarterRectWidth + Spacing;
+            if (isZ=GUI.Toggle(threeToggleRect, isZ, "Z", SpringBoneGUIStyles.ToggleStyle))
+            {
+                isY = isX = false;
+                mirrorAxis = Axis.Z;
+                strAxis = "Z";
+            }
+            if (!isX && !isY && !isZ)
+                mirrorAxis = Axis.Null;
+            uiRect.y += buttonOffset;
+     
             var halfRectWidth = 0.5f * (uiRect.width - Spacing);
             var halfButtonRect = new Rect(uiRect.x, uiRect.y, halfRectWidth, uiRect.height);
-            if (GUI.Button(halfButtonRect, "X < 0のボーンを元に設定", SpringBoneGUIStyles.ButtonStyle))
+            if(mirrorAxis== Axis.Null)
             {
-                AcquireSourceBonesOnSideOfAxis(true);
+                if (GUI.Button(halfButtonRect, "请选择镜像轴", SpringBoneGUIStyles.ButtonStyle))
+                {
+                }
             }
-            halfButtonRect.x += halfRectWidth + Spacing;
-            if (GUI.Button(halfButtonRect, "X > 0のボーンを元に設定", SpringBoneGUIStyles.ButtonStyle))
+            else
             {
-                AcquireSourceBonesOnSideOfAxis(false);
+                if (GUI.Button(halfButtonRect, "选择 " + strAxis + "<0 的骨骼", SpringBoneGUIStyles.ButtonStyle))
+                {
+                    AcquireSourceBonesOnSideOfAxis(true);
+                }
+                halfButtonRect.x += halfRectWidth + Spacing;
+                if (GUI.Button(halfButtonRect, "选择 " + strAxis + ">0 的骨骼", SpringBoneGUIStyles.ButtonStyle))
+                {
+                    AcquireSourceBonesOnSideOfAxis(false);
+                }
             }
+            
             uiRect.y += buttonOffset;
 
             halfButtonRect.x = uiRect.x;
             halfButtonRect.y = uiRect.y;
-            if (GUI.Button(halfButtonRect, "选择列表中的复制源SpringBone", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(halfButtonRect, "在Hierarchy中选择源列表中的SpringBone", SpringBoneGUIStyles.ButtonStyle))
             {
                 var sourceBones = boneEntries.Select(entry => entry.sourceBone).Where(bone => bone != null);
                 if (sourceBones.Any()) { Selection.objects = sourceBones.Select(bone => bone.gameObject).ToArray(); }
             }
             halfButtonRect.x += halfRectWidth + Spacing;
-            if (GUI.Button(halfButtonRect, "选择列表中的目标SpringBone", SpringBoneGUIStyles.ButtonStyle))
+            if (GUI.Button(halfButtonRect, "在Hierarchy中选择目标列表中的SpringBone", SpringBoneGUIStyles.ButtonStyle))
             {
                 var targetBones = boneEntries.Select(entry => entry.targetBone).Where(bone => bone != null);
                 if (targetBones.Any()) { Selection.objects = targetBones.Select(bone => bone.gameObject).ToArray(); }

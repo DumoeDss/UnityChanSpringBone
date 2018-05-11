@@ -219,7 +219,7 @@ namespace UTJ
                 const string ErrorFormat =
                     "SpringBone导入失败。\n"
                     + "原始数据中有错误，\n"
-                    + "或数据与字符不匹配。\n"
+                    + "或数据与骨骼名称不匹配。\n"
                     + "详细信息请查看Console的日志。\n\n"
                     + "springBoneRoot: {0}\n\n"
                     + "Path: {1}";

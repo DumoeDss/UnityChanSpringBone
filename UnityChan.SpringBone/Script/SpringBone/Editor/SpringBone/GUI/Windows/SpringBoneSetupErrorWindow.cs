@@ -41,7 +41,7 @@ namespace UTJ
         private void OnGUI()
         {
             EditorGUILayout.Space();
-            GUILayout.Label("DynamicsSetup中有一些错误。只创建正常的部分？");
+            GUILayout.Label("DynamicsSetup中有一些错误，是否只创建正常的部分？");
             EditorGUILayout.Space();
             EditorGUILayout.ObjectField("SpringBone的根节点", springBoneRoot, typeof(GameObject), true);
             EditorGUILayout.ObjectField("Collider的根节点", colliderRoot, typeof(GameObject), true);
